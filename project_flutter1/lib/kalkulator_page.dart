@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  // State khusus visual UI toggle password
+  bool _isObscure = true;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +56,7 @@ class LoginPage extends StatelessWidget {
 
                 const SizedBox(height: 8),
 
-                // Input Email
+                // Input Email (Pure UI)
                 TextField(
                   style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
@@ -58,6 +66,7 @@ class LoginPage extends StatelessWidget {
                     fillColor: const Color(0xFF121212),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide.none,
                     ),
                   ),
                 ),
@@ -78,41 +87,54 @@ class LoginPage extends StatelessWidget {
 
                 const SizedBox(height: 8),
 
-                // Input Password
+                // Input Password (Pure UI)
                 TextField(
-                  obscureText: true,
+                  obscureText: _isObscure,
                   style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     hintText: 'Password',
                     hintStyle: const TextStyle(color: Colors.grey),
                     filled: true,
                     fillColor: const Color(0xFF121212),
-                    suffixIcon: const Icon(
-                      Icons.visibility_off,
-                      color: Colors.white,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _isObscure ? Icons.visibility_off : Icons.visibility,
+                        color: Colors.grey,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isObscure = !_isObscure;
+                        });
+                      },
                     ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide.none,
                     ),
                   ),
                 ),
 
                 const SizedBox(height: 30),
 
-                // Tombol Login
+                // Tombol Login (Tanpa Fungsi Logic)
                 SizedBox(
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: null, // Set null jika ingin disabled, atau () {} untuk aktif tanpa aksi
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF1DB954),
+                      disabledBackgroundColor: const Color(0xFF1DB954).withOpacity(0.5),
                       foregroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
                     ),
                     child: const Text(
                       'Log In',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
+                        fontSize: 16,
                       ),
                     ),
                   ),
@@ -120,11 +142,15 @@ class LoginPage extends StatelessWidget {
 
                 const SizedBox(height: 20),
 
+                // Text Button (Tanpa Aksi)
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {}, // Callback kosong
                   child: const Text(
                     'Forgot your password?',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Colors.white,
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
                 ),
               ],
