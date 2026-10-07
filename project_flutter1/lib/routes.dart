@@ -1,16 +1,24 @@
 import 'package:get/get.dart';
+import 'package:project_flutter1/pages/detailmakanan_page.dart';
 import 'package:project_flutter1/pages/listmakanan_page.dart';
 import 'package:project_flutter1/pages/registration_page.dart';
 import 'package:project_flutter1/pages/confirmreg_page.dart';
 
 class Routes {
-  // Wajib menggunakan awalan '/'
-  static const String registration = '/registration';
-  static const String confirm_registration = '/confirm_registration';
-  static const String list_makanan = '/list_makanan';
+  static const list_makanan = '/list_makanan';
+  static const detail_makanan = '/detail_makanan';
+  static const registration = '/registration';
+  static const confirm_registration = '/confirm_registration';
 
-  // PASTIKAN ada kata 'static final List<GetPage>' di bawah ini:
-  static final List<GetPage> pages = [
+  static final pages = [
+    GetPage(
+      name: list_makanan,
+      page: () => ListMakananPage(),
+    ),
+    GetPage(
+      name: detail_makanan,
+      page: () => const DetailMakananPage(),
+    ),
     GetPage(
       name: registration,
       page: () => RegistrationPage(),
@@ -18,10 +26,6 @@ class Routes {
     GetPage(
       name: confirm_registration,
       page: () => ConfirmRegPage(),
-    ),
-    GetPage(
-      name: list_makanan,
-      page: () => ListMakananPage(),
     ),
   ];
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_flutter1/controller/listmakanan_ctr.dart';
+import 'package:project_flutter1/routes.dart';
 
 class ListMakananPage extends StatelessWidget {
   ListMakananPage({super.key});
@@ -17,13 +18,13 @@ class ListMakananPage extends StatelessWidget {
       body: ListView.separated(
         padding: const EdgeInsets.all(12),
         itemCount: controller.listMakanan.length,
-        separatorBuilder: (context, index) => const Divider(height: 1), // Garis pemisah simpel
+        separatorBuilder: (context, index) => const Divider(height: 1),
         itemBuilder: (context, index) {
           final makanan = controller.listMakanan[index];
           return ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             leading: const CircleAvatar(
-              backgroundColor: Color.fromARGB(255, 194, 55, 197),
+              backgroundColor: Colors.purple,
               child: Icon(Icons.fastfood, color: Colors.white, size: 20),
             ),
             title: Text(
@@ -36,7 +37,11 @@ class ListMakananPage extends StatelessWidget {
             ),
             trailing: const Icon(Icons.chevron_right, color: Colors.grey),
             onTap: () {
-              // Aksi saat item diklik
+              // Pindah ke halaman detail sambil membawa data makanan
+              Get.toNamed(
+                Routes.detail_makanan,
+                arguments: makanan,
+              );
             },
           );
         },
