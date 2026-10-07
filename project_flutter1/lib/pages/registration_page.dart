@@ -1,153 +1,69 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:project_flutter1/component/Costume_textField.dart';
 import 'package:project_flutter1/routes.dart';
 
-class RegistrationPage extends StatefulWidget {
-  const RegistrationPage({super.key});
+class RegistrationPage extends StatelessWidget {
+  RegistrationPage({super.key});
 
-  @override
-  State<RegistrationPage> createState() => _RegistrationPageState();
-}
-
-class _RegistrationPageState extends State<RegistrationPage> {
-  // Controller input
   final TextEditingController txtNama = TextEditingController();
-  final TextEditingController txtAlamat = TextEditingController();
-  final TextEditingController txtEmail = TextEditingController();
-  final TextEditingController txtNoWA = TextEditingController();
+  final TextEditingController txtUmur = TextEditingController();
+  final TextEditingController txtAsal = TextEditingController();
 
-  // Variabel nilai terpilih
-  String? selectedJenisKelamin = 'Laki-laki';
-
-  // Opsi pilihan dropdown
-  final List<String> listJenisKelamin = ['Laki-laki', 'Perempuan'];
-
-  @override
-  void dispose() {
-    txtNama.dispose();
-    txtAlamat.dispose();
-    txtEmail.dispose();
-    txtNoWA.dispose();
-    super.dispose();
-  }
+  // List opsi jenis kelamin
+  final List<String> listJenisKelamin = ['Laki-Laki', 'Perempuan'];
+  
+  // Variabel reaktif (GetX) untuk menyimpan pilihan jenis kelamin
+  final RxnString selectedJenisKelamin = RxnString();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFAF7FF),
-      appBar: AppBar(
-        title: const Text(
-          "Registration",
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.w500,
-            color: Colors.black87,
-          ),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 1,
-      ),
-      body: SingleChildScrollView(
+      appBar: AppBar(title: const Text("Registration Page")),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // 1. Input Nama
-            CostumeTextfield(
-              textController: txtNama,
-              myhint: "Input nama",
-            ),
-
-            // 2. Input Alamat
-            CostumeTextfield(
-              textController: txtAlamat,
-              myhint: "Input alamat",
-            ),
-
-            // 3. Input Email
-            CostumeTextfield(
-              textController: txtEmail,
-              myhint: "Input email",
-              keyboardType: TextInputType.emailAddress,
-            ),
-
-            // 4. Input No WA
-            CostumeTextfield(
-              textController: txtNoWA,
-              myhint: "Input No WA",
-              keyboardType: TextInputType.phone,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-              ],
-            ),
-
-            // 5. Dropdown Jenis Kelamin (Dipindah ke bawah)
-            Container(
-              color: Colors.white,
-              child: DropdownButtonFormField<String>(
-                value: selectedJenisKelamin,
-                icon: const Icon(
-                  Icons.keyboard_arrow_down_rounded,
-                  color: Color(0xFF673AB7),
-                ),
-                decoration: const InputDecoration(
-                  hintText: "Pilih Jenis Kelamin",
-                  contentPadding: EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 14,
-                  ),
-                  border: InputBorder.none,
-                ),
-                dropdownColor: Colors.white,
-                items: listJenisKelamin.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.black87,
-                      ),
-                    ),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedJenisKelamin = newValue;
-                  });
-                },
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // Tombol Kirim / Send
+            CustomTextfield(txtController: txtNama, myHint: "input name"),
+            CustomTextfield(txtController: txtUmur, myHint: "input age"),
+            CustomTextfield(txtController: txtAsal, myHint: "input origin/address"),
+            
+            // Dropdown dibungkus Obx agar UI memperbarui nilai pilihan secara otomatis
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFEDE7F6),
-                    foregroundColor: const Color(0xFF673AB7),
-                    elevation: 0,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Obx(
+                () => DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Pilih Jenis Kelamin",
                   ),
-                  onPressed: () {
-                    Get.toNamed(
-                      Routes.confirm_registration,
-                      arguments: {
-                        'name': txtNama.text,
-                        'jenis_kelamin': selectedJenisKelamin ?? '',
-                        'alamat': txtAlamat.text,
-                        'email': txtEmail.text,
-                        'no_wa': txtNoWA.text,
-                      },
+                  value: selectedJenisKelamin.value,
+                  items: listJenisKelamin.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
                     );
+                  }).toList(),
+                  onChanged: (newValue) {
+                    selectedJenisKelamin.value = newValue; // Update nilai reaktif
                   },
-                  child: const Text("Send"),
                 ),
               ),
+            ),
+
+            ElevatedButton(
+              onPressed: () {
+                Get.toNamed(
+                  Routes.confirm_registration,
+                  arguments: {
+                    'name': txtNama.text,
+                    'umur': txtUmur.text,
+                    'asal': txtAsal.text,
+                    'jenis_kelamin': selectedJenisKelamin.value ?? '-',
+                  },
+                );
+              },
+              child: const Text("Send"),
             ),
           ],
         ),

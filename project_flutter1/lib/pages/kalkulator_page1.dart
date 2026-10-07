@@ -37,16 +37,16 @@ class KalkulatorPage extends StatelessWidget {
           children: [
             const SizedBox(height: 15),
 
-            CostumeTextfield(
-              textController: txtAngka1,
-              myhint: "input angka 1",
+            CustomTextfield(
+              txtController: txtAngka1,
+              myHint: "input angka 1",
             ),
 
             const SizedBox(height: 12),
 
-            CostumeTextfield(
-              textController: txtAngka2,
-              myhint: "input angka 2",
+            CustomTextfield(
+              txtController: txtAngka2,
+              myHint: "input angka 2",
             ),
 
             const SizedBox(height: 20),

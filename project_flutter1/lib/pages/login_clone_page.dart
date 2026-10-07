@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_flutter1/component/costume_textField.dart';
 import 'package:project_flutter1/component/costume_button.dart';
+import 'package:project_flutter1/component/link_button.dart';
 import 'package:project_flutter1/component/title_text.dart';
 import 'package:project_flutter1/component/label_text.dart';
 import 'package:project_flutter1/component/link_button.dart';
@@ -42,8 +43,8 @@ class LoginClonePage extends StatelessWidget {
 
                 const SizedBox(height: 8),
 
-                // Custom Input Email
-                const CostumeTextfield(myhint: 'Email or username'),
+                // Custom Input Email (Hapus 'const' di sini)
+                CustomTextfield(txtController: TextEditingController(), myHint: 'Email or username'),
 
                 const SizedBox(height: 20),
 
@@ -51,12 +52,12 @@ class LoginClonePage extends StatelessWidget {
                 const LabelText(text: 'Password'),
 
                 const SizedBox(height: 8),
-                // Custom Input Password
 
-                const SizedBox(height: 8),
-
-                // Custom Input Password
-                const CostumeTextfield(myhint: 'Password'),
+                // Custom Input Password (Hapus 'const' di sini)
+                CustomTextfield(
+                  txtController: TextEditingController(),
+                  myHint: 'Password',
+                ),
 
                 const SizedBox(height: 30),
 
@@ -66,13 +67,11 @@ class LoginClonePage extends StatelessWidget {
                 const SizedBox(height: 20),
 
                 // Forgot Password
-                // Forgot Password menggunakan komponen LinkButton
                 const LinkButton(text: 'Forgot your password?'),
 
                 const SizedBox(height: 70),
 
                 // Belum punya akun
-                // Belum punya akun menggunakan komponen SubText
                 const SubText(text: "Don't have an account?"),
 
                 const SizedBox(height: 12),
@@ -90,7 +89,7 @@ class LoginClonePage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(25),
                         ),
                       ),
-                      child: SecondaryButton(text: 'Sign up for Spotify'),
+                      child: const SecondaryButton(text: 'Sign up for Spotify'),
                     ),
                   ),
                 ),

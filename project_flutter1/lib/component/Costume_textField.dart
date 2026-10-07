@@ -1,48 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-class CostumeTextfield extends StatelessWidget {
-  final TextEditingController? textController;
-  final String myhint;
-  final TextInputType? keyboardType; // Properti opsional
-  final List<TextInputFormatter>? inputFormatters; // Properti opsional
+class CustomTextfield extends StatelessWidget {
+  // kita list variabel2 yang diperlukan
+  final TextEditingController txtController;
+  final String myHint;
 
-  const CostumeTextfield({
+  const CustomTextfield({
     super.key,
-    this.textController,
-    required this.myhint,
-    this.keyboardType,
-    this.inputFormatters,
+    required this.txtController,
+    required this.myHint,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: textController,
-      keyboardType: keyboardType, // Fleksibel (default: text biasa)
-      inputFormatters: inputFormatters, // Fleksibel
-      style: const TextStyle(
-        color: Colors.white,
-      ),
+      controller: txtController,
       decoration: InputDecoration(
-        hintText: myhint,
-        hintStyle: const TextStyle(
-          color: Colors.grey,
-        ),
-        filled: true,
-        fillColor: const Color(0xFF121212),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5),
-          borderSide: const BorderSide(
-            color: Colors.grey,
-          ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5),
-          borderSide: const BorderSide(
-            color: Colors.grey,
-          ),
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+        hint: Text(myHint),
       ),
     );
   }

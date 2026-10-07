@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-# Object file
-*.o
-
-# Ada Library Information
-*.ali
-=======
 # Miscellaneous
 *.class
 *.log
@@ -53,4 +46,3 @@ app.*.map.json
 
 # Widget Preview related
 .widget_preview/
->>>>>>> f5b346d (Upload projek Flutter)
