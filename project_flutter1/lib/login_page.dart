@@ -1,70 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:project_flutter1/component/costume_textField.dart';
-import 'package:project_flutter1/component/costume_button.dart';
+import 'package:get/get.dart';
+import 'package:project_flutter1/controller/login_controller.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class LoginPage extends StatelessWidget {
+  LoginPage({super.key});
 
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
+  final controller = Get.put(LoginController());
 
-class _LoginPageState extends State<LoginPage> {
-  TextEditingController txtUsername = TextEditingController();
-  TextEditingController txtPassword = TextEditingController();
-  String statusLogin = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Login Page")),
-      body: Column(
-        children: [
-          // kita isi textfield username, password, dan button
-          Text(
-            "Welcome to Application " + statusLogin.toString(),
-            style: TextStyle(
-              fontSize: 20,
-              color: const Color.fromARGB(255, 62, 4, 223),
-              fontStyle: FontStyle.italic,
+      appBar: AppBar(title: const Text('Login api')),
+      body: Center(
+        child: Column(
+          children: [
+            TextField(
+              controller: controller.txtUsername,
+              decoration: InputDecoration(label: Text('Username')),
             ),
-          ),
-          Container(
-            margin: EdgeInsets.all(10),
-            child: CustomTextfield(
-              txtController: txtUsername,
-              myHint: "Input username"
+            TextField(
+              controller: controller.txtPassword,
+              decoration: InputDecoration(label: Text('Password')),
             ),
-          ),
-          Container(
-            margin: EdgeInsets.all(10),
-            child: CustomTextfield(
-              txtController: txtPassword,
-              myHint: "Input password"
+
+            Obx(
+              () => controller.isLoading.value
+                  ? Center(child: CircularProgressIndicator())
+                  : OutlinedButton(
+                      onPressed: () {
+                        controller.login();
+                      },
+                      child: Text('Login'),
+                    ),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    String username = txtUsername.text.toString();
-                    String password = txtPassword.text.toString();
-                    if (username == "admin" && password == "admin") {
-                      print("sukses login");
-                      statusLogin = "admin";
-                    } else {
-                      print("gagal login");
-                      statusLogin = "failed";
-                    }
-                  });
-                },
-                child: Text("Login"),
-              ),
-              ElevatedButton(onPressed: () {}, child: Text("Register")),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
