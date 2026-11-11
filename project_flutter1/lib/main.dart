@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:project_flutter1/routes.dart';
-import 'package:get/get_navigation/get_navigation.dart';
-import 'package:project_flutter1/pages/listmakanan_page.dart';
-import 'package:project_flutter1/routes.dart';
-
+import 'routes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,12 +9,14 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: "My Learning App",
+      debugShowCheckedModeBanner: false,
+      title: 'Project Flutter 1',
+      // Langsung arahkan halaman pertama kali dijalankan ke List Makanan
       initialRoute: Routes.list_makanan,
+      // Mendaftarkan seluruh rute dari file routes.dart
       getPages: Routes.pages,
     );
   }

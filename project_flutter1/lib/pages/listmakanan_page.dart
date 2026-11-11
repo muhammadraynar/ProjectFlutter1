@@ -11,41 +11,122 @@ class ListMakananPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF8F9FA),
       appBar: AppBar(
-        title: const Text("List Makanan"),
+        title: const Text(
+          "List Makanan",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        ),
         centerTitle: true,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black87,
+        elevation: 0.5,
       ),
-      body: ListView.separated(
-        padding: const EdgeInsets.all(12),
-        itemCount: controller.listMakanan.length,
-        separatorBuilder: (context, index) => const Divider(height: 1),
-        itemBuilder: (context, index) {
-          final makanan = controller.listMakanan[index];
-          return ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-            leading: const CircleAvatar(
-              backgroundColor: Colors.purple,
-              child: Icon(Icons.fastfood, color: Colors.white, size: 20),
-            ),
-            title: Text(
-              makanan.namaMakanan,
-              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-            ),
-            subtitle: Text(
-              "Rp ${makanan.hargaMakanan}",
-              style: const TextStyle(color: Colors.grey),
-            ),
-            trailing: const Icon(Icons.chevron_right, color: Colors.grey),
-            onTap: () {
-              // Pindah ke halaman detail sambil membawa data makanan
-              Get.toNamed(
-                Routes.detail_makanan,
-                arguments: makanan,
-              );
-            },
+      body: Obx(() {
+        if (controller.listMakanan.isEmpty) {
+          return const Center(
+            child: CircularProgressIndicator(),
           );
-        },
-      ),
+        }
+
+        return ListView.builder(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          itemCount: controller.listMakanan.length,
+          itemBuilder: (context, index) {
+            final makanan = controller.listMakanan[index];
+            return Container(
+              margin: const EdgeInsets.only(bottom: 14),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.04),
+                    blurRadius: 10,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Material(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(16),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(16),
+                  onTap: () {
+                    Get.toNamed(
+                      Routes.detail_makanan,
+                      arguments: makanan,
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
+                      children: [
+                        // Gambar Makanan (Diperbesar ukurannya menjadi 85x85 dengan sudut melengkung halus)
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.network(
+                            makanan.gambarMakanan,
+                            width: 85,
+                            height: 85,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) =>
+                                Container(
+                              width: 85,
+                              height: 85,
+                              decoration: BoxDecoration(
+                                color: Colors.purple[50],
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: const Icon(Icons.fastfood,
+                                  color: Colors.purple, size: 32),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        // Teks Nama dan Harga
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // Nama makanan diperbesar dan dibuat lebih tebal
+                              Text(
+                                makanan.namaMakanan,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              // Harga tetap dengan gaya ukuran yang proporsional
+                              Text(
+                                "Rp ${makanan.hargaMakanan}",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 14,
+                                  color: Colors.purple[700],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Icon panah kanan
+                        const Icon(
+                          Icons.chevron_right_rounded,
+                          color: Colors.grey,
+                          size: 24,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      }),
     );
   }
 }
